@@ -3,25 +3,58 @@
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
+  background-repeat: no-repeat;
+  background-size: 100% 8%;
+  background-image: linear-gradient(rgb(255 255 255 / 0%) ,rgb(27 27 27), rgb(27 27 27)),url('./mountains.jpeg');
+}
+
+/* ADD media query  */
+@media (max-width: 584px) {
+  .movie-library {
+    background-size: 100% 4%;
+  }
 }
 
 .movie-library__title {
   font-size: 2em;
+  font-weight: 600;
   margin-bottom: 1em;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  border: solid 1px var(--ms-green);
+  border-radius: 10px;
 }
 
-.movie-library__actions select {
+.movie-library__actions .movie-library__actions__dropdown {
   width: 100%;
-  padding: .25em;
+  padding: 10px;
+  border: none;
+  border-radius: 0;
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px;
+  /* remove safari styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* add custom arrow */
+  background-image: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png);
+  background-repeat: no-repeat;
+  background-position-x: 99%;
+  background-position-y: 50%;
+  background-size: 12px;
 }
 
-.movie-library__actions button {
+.movie-library__actions .movie-library__actions__button {
   white-space: nowrap;
+  border: none;
+  padding: 0 15px;
+  background-color: var(--ms-green);
+  cursor: pointer;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .movie-library__loading {
@@ -33,25 +66,51 @@
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+  grid-gap: 40px 20px;
+
 }
 
 .movie-library__card {
   background-color: #333333;
-  margin-bottom: 1em;
   display: flex;
   align-items: center;
+  position: relative;
+  border-radius: 8px;
+  height: 400px;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
 }
 
-.movie-library__card ul {
+.movie-library__card .movie-library__card-copy {
   padding: 1em;
 }
-
-.movie-library__card li {
-  line-height: 120%;
+.movie-library__card-copy-container {
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(151,215,0,1) 0%, rgba(151,215,0,0.3) 40%, rgba(255,255,255,0) 84%);
 }
+
+.movie-library__card li {    
+  line-height: 1.3rem;
+}
+
+.movie-library__card .movie-library-copy__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.movie-library__card .movie-library-copy__year, 
+.movie-library__card .movie-library-copy__genres {
+  font-size: 12px;
+}
+
