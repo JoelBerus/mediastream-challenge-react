@@ -62,14 +62,67 @@ export default function Exercise01 () {
     }
   ])
 
-  const getTotal = () => 0 // TODO: Implement this
+  const getTotal = () => {
+    // calculate total cost of cart
+    let total = 0
+    cart.forEach(o => {
+      total += o.price * o.quantity
+    })
+    // apply discount rules
+    discountRules.forEach(o => {
+      if (o.m.every(x => cart.find(y => y.id === x))) {
+        total = total - (total * o.discount)
+      }
+    })
+    return total;
+  }
+
+  const handleIncrement = (movie) => {
+    // increment quantity of movie in cart
+    setCart(cart.map(o => {
+      if (o.id === movie.id) {
+        return {
+          ...o,
+          quantity: o.quantity + 1
+        }
+      }
+      return o
+    }))
+  }
+
+  const handleDecrement = (movie) => {
+    // decrement quantity of movie in cart
+    setCart(cart.map(o => {
+      if (o.id === movie.id) {
+        return {
+          ...o,
+          quantity: o.quantity - 1
+        }
+      }
+      return o
+    }).filter(o => o.quantity > 0))
+  }
+
+  const handleAddToCart = (movie) => {
+    // add movie to cart if it's not in the cart yet, otherwise increment quantity
+    const movieInCart = cart.find(o => o.id === movie.id)
+    if (movieInCart) {
+      handleIncrement(movie)
+    }
+    else {
+      setCart([...cart, {
+        ...movie,
+        quantity: 1
+      }])
+    }
+  }
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map((o, index) => (
+            <li key={index} className="movies__list-card">
               <ul>
                 <li>
                   ID: {o.id}
@@ -81,7 +134,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => handleAddToCart(o)}>
                 Add to cart
               </button>
             </li>
@@ -90,8 +143,8 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {cart.map((x, index) => (
+            <li key={index} className="movies__cart-card">
               <ul>
                 <li>
                   ID: {x.id}
@@ -104,13 +157,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => handleDecrement(x)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => handleIncrement(x)}>
                   +
                 </button>
               </div>
